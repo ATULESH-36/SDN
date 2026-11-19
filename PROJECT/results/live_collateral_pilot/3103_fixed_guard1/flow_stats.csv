@@ -1,0 +1,1 @@
+time,switch,in_port,dl_src,dl_dst,dl_type,nw_src,nw_dst,nw_proto,tp_src,tp_dst,packets,bytes,duration_s,actions

@@ -1,0 +1,15 @@
+metric,comparison,mean_difference,ci_low,ci_high
+leaked_installation_packets,guard_on_minus_off,-0.975,-1.425,-0.575
+leaked_installation_packets,graded_minus_fixed,0.075,-0.325,0.425
+collateral_fraction,guard_on_minus_off,-0.006042110973327933,-0.01770846944595629,0.00472463496296109
+collateral_fraction,graded_minus_fixed,-0.49946938848845013,-0.520003094269698,-0.47844898368393424
+decision_to_initial_ack_s,guard_on_minus_off,0.02576478719711304,-0.10594090849161147,0.1475674155354499
+decision_to_initial_ack_s,graded_minus_fixed,-0.033023083209991456,-0.13162628531455994,0.07832231596112248
+host_block_from_attack_start_s,guard_on_minus_off,0.005093389749526977,-0.055731946229934694,0.06643265590071677
+host_block_from_attack_start_s,graded_minus_fixed,0.675058513879776,0.5834037947654724,0.7584859767556189
+last_block_duration_s,guard_on_minus_off,0.0,0.0,0.0
+last_block_duration_s,graded_minus_fixed,3.0,3.0,3.0
+persistent_delivery_fraction,guard_on_minus_off,-0.015657330622118874,-0.03604412736933004,0.0010726001715532115
+persistent_delivery_fraction,graded_minus_fixed,-0.47574155272404245,-0.49574828502439944,-0.4518398286461854
+unaffected_fraction,guard_on_minus_off,0.0,0.0,0.0
+unaffected_fraction,graded_minus_fixed,0.0,0.0,0.0

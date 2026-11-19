@@ -1,0 +1,109 @@
+{
+  "arm_order": {
+    "4101": [
+      "monitor",
+      "graded",
+      "fixed"
+    ],
+    "4102": [
+      "monitor",
+      "graded",
+      "fixed"
+    ],
+    "4103": [
+      "fixed",
+      "graded",
+      "monitor"
+    ],
+    "4104": [
+      "monitor",
+      "graded",
+      "fixed"
+    ],
+    "4105": [
+      "monitor",
+      "graded",
+      "fixed"
+    ],
+    "4106": [
+      "fixed",
+      "monitor",
+      "graded"
+    ],
+    "4107": [
+      "fixed",
+      "graded",
+      "monitor"
+    ],
+    "4108": [
+      "monitor",
+      "fixed",
+      "graded"
+    ],
+    "4109": [
+      "fixed",
+      "graded",
+      "monitor"
+    ],
+    "4110": [
+      "fixed",
+      "monitor",
+      "graded"
+    ],
+    "4111": [
+      "monitor",
+      "fixed",
+      "graded"
+    ],
+    "4112": [
+      "monitor",
+      "fixed",
+      "graded"
+    ],
+    "4113": [
+      "graded",
+      "fixed",
+      "monitor"
+    ],
+    "4114": [
+      "graded",
+      "monitor",
+      "fixed"
+    ],
+    "4115": [
+      "graded",
+      "monitor",
+      "fixed"
+    ],
+    "4116": [
+      "graded",
+      "monitor",
+      "fixed"
+    ],
+    "4117": [
+      "monitor",
+      "graded",
+      "fixed"
+    ],
+    "4118": [
+      "monitor",
+      "fixed",
+      "graded"
+    ],
+    "4119": [
+      "graded",
+      "fixed",
+      "monitor"
+    ],
+    "4120": [
+      "graded",
+      "fixed",
+      "monitor"
+    ]
+  },
+  "ttl_s": 5,
+  "receipt_deadline_s": 2,
+  "horizon_s": 4,
+  "requests_per_stream": 16,
+  "control": "detector logs requests; controller reads an empty file"
+}

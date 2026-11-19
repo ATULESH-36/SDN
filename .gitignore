@@ -5,6 +5,11 @@ pacman/build/
 PROJECT/results/*
 !PROJECT/results/eval/
 !PROJECT/results/eval_cicids/
+!PROJECT/results/research_simulation_v2/
+!PROJECT/results/research_simulation_v3/
+!PROJECT/results/live_collateral_pilot/
+!PROJECT/results/mitigation_analysis_v3/
+!PROJECT/results/live_service_v1/
 !PROJECT/results/dataset/
 !PROJECT/results/aisprt_live.csv
 !PROJECT/results/aisprt_live_tests.txt
@@ -14,5 +19,8 @@ PROJECT/report_ieee/*.blg
 PROJECT/report_ieee/*.log
 PROJECT/report_ieee/*.out
 PROJECT/report_ieee/main.pdf
+PROJECT/report_ieee/systems.pdf
+PROJECT/report_ieee/systems_supplement.pdf
+PROJECT/report_ieee/build_*.txt
 __pycache__/
 *.pyc

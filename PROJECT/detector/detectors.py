@@ -12,6 +12,7 @@ first alarm (or None) plus a continuous score used for ROC curves.
 """
 import math
 from collections import defaultdict, deque
+from state import TTLMap
 
 
 class Result(object):
@@ -37,7 +38,7 @@ class AISPRT(object):
         success: L += w * ln(theta1/theta0)          failure: L += w * ln((1-theta1)/(1-theta0))
     w = novelty weight of (d, p): 1 if no other source has contacted (d, p) in the past, w_min..1 decreasing with
     the number of distinct other sources that use that service (popular broken services are weak evidence).
-    Each (s, d, p) is scored once (first contact; `dedup` = horizon, default: the whole observation), so retries and
+    Each (s, d, p) is scored once within the bounded contact TTL (or the shorter `dedup` horizon), so retries and
     repeated benign use of the same service are not re-counted. L decays towards 0 with time constant tau
     between updates, so benign noise does not accumulate forever while scans faster than ~1 probe per tau/eta
     still cross the threshold. Wald thresholds: eta1 = ln(beta/alpha) (scanner), eta0 = ln((1-beta)/(1-alpha))
@@ -47,7 +48,12 @@ class AISPRT(object):
 
     def __init__(self, theta0=0.8, theta1=0.2, alpha=0.01, beta=0.99, tau=600.0, rho=0.5, dedup=float("inf"),
                  w_min=0.25, use_novelty=True, use_decay=True, use_dedup=True, use_cusum=True, cusum_k=20.0, cusum_h=150.0,
-                 eta1=None):
+                 eta1=None, max_hosts=4096, max_contacts=65536, max_services=16384,
+                 state_ttl=3600.0, contact_ttl=3600.0, max_service_users=64, max_victims=256):
+        if max_service_users < 1 or max_victims < 1:
+            raise ValueError("max_service_users and max_victims must be positive")
+        self.state_limits = (max_hosts, max_contacts, max_services, state_ttl, contact_ttl)
+        self.max_service_users, self.max_victims = max_service_users, max_victims
         self.t0, self.t1 = theta0, theta1
         self.eta1 = math.log(beta / alpha) if eta1 is None else eta1
         self.eta0 = math.log((1 - beta) / (1 - alpha))
@@ -60,18 +66,39 @@ class AISPRT(object):
         self.reset()
 
     def reset(self):
+        hosts, contacts, services, ttl, contact_ttl = self.state_limits
+        self.host_state = TTLMap(hosts, ttl)
+        self.contact_state = TTLMap(contacts, contact_ttl)
+        self.service_state = TTLMap(services, ttl)
         self.L, self.tl = defaultdict(float), {}
-        self.users = defaultdict(set)             # (d, p) -> sources that contacted it
-        self.recent = {}                          # (s, d, p) -> last time counted
         self.fails_to = defaultdict(lambda: defaultdict(int))
         self.suspected = set()
         self.cus, self.cus_bucket, self.cus_count = defaultdict(float), {}, defaultdict(int)
         self.score = defaultdict(float)
 
+    def _forget(self, src):
+        for mapping in (self.L, self.tl, self.fails_to, self.cus, self.cus_bucket, self.cus_count, self.score):
+            mapping.pop(src, None)
+        self.suspected.discard(src)
+
+    def age(self, now):
+        for src, _ in self.host_state.expire(now):
+            self._forget(src)
+        self.contact_state.expire(now)
+        self.service_state.expire(now)
+
+    def state_stats(self):
+        maps = (self.host_state, self.contact_state, self.service_state)
+        return dict(hosts=len(maps[0]), contacts=len(maps[1]), services=len(maps[2]),
+                    expired=sum(m.expired for m in maps), evicted=sum(m.evicted for m in maps))
+
     def step(self, a):
         """Process one resolved attempt; return a list of actions (t, src, kind, scope)."""
         out = []
         s, d, p, t = a.src, a.dst, a.dport, a.t_outcome
+        self.age(t)
+        for old, _ in self.host_state.put(s, True, t):
+            self._forget(old)
         # flood: one-sided CUSUM on initiated connections per second
         b = int(a.t)
         if self.cus_bucket.get(s) != b:
@@ -86,12 +113,15 @@ class AISPRT(object):
             out.append((a.t, s, "SYN_FLOOD", "host"))
         # scan: sequential test on de-duplicated first contacts, novelty-weighted, with decay
         key = (s, d, p)
-        if self.use_dedup and key in self.recent and t - self.recent[key] < self.dedup:
-            self.users[(d, p)].add(s)
+        recent = self.contact_state.get(key, t, refresh=False)
+        users = self.service_state.get((d, p), t, set())
+        others = len(users) - int(s in users)
+        if len(users) < self.max_service_users:
+            users.add(s)
+        self.service_state.put((d, p), users, t)
+        if self.use_dedup and recent is not None and t - recent < self.dedup:
             return out
-        self.recent[key] = t
-        others = len(self.users[(d, p)] - {s})
-        self.users[(d, p)].add(s)
+        self.contact_state.put(key, t, t)
         w = max(self.w_min, 1.0 / (1.0 + others)) if (self.use_novelty and others) else 1.0
         if self.use_decay and s in self.tl:
             self.L[s] *= math.exp(-(t - self.tl[s]) / self.tau)
@@ -100,6 +130,8 @@ class AISPRT(object):
             self.L[s] += self.s_succ
         else:
             self.L[s] += w * self.s_fail
+            if d not in self.fails_to[s] and len(self.fails_to[s]) >= self.max_victims:
+                del self.fails_to[s][next(iter(self.fails_to[s]))]
             self.fails_to[s][d] += 1
         self.score[s] = max(self.score[s], self.L[s] / self.eta1)
         if self.L[s] >= self.eta1:

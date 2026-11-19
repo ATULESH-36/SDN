@@ -1,0 +1,1662 @@
+[
+  {
+    "seed": 4101,
+    "policy": "monitor",
+    "trigger_time": 1795070634.3504949,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070634",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 6,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4101,
+    "policy": "graded",
+    "trigger_time": 1795070658.3802137,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070658",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070659.352573156",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 3,
+    "unrelated_success": 15,
+    "control_success": 15,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4101,
+    "policy": "fixed",
+    "trigger_time": 1795070683.486433,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070683",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070683.620641232",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 0,
+    "unrelated_success": 0,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4102,
+    "policy": "monitor",
+    "trigger_time": 1795070708.8726602,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070708",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 6,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4102,
+    "policy": "graded",
+    "trigger_time": 1795070733.2187102,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070733",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070733.293706417",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 0,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4102,
+    "policy": "fixed",
+    "trigger_time": 1795070758.43819,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070758",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070758.594569445",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 0,
+    "unrelated_success": 0,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4103,
+    "policy": "fixed",
+    "trigger_time": 1795070783.9915693,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070784",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070784.748601675",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 2,
+    "unrelated_success": 2,
+    "control_success": 16,
+    "target_received": 2,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4103,
+    "policy": "graded",
+    "trigger_time": 1795070809.1535275,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070809",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070809.294528008",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 0,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4103,
+    "policy": "monitor",
+    "trigger_time": 1795070832.8283417,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070832",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 5,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4104,
+    "policy": "monitor",
+    "trigger_time": 1795070858.399586,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070858",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 6,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4104,
+    "policy": "graded",
+    "trigger_time": 1795070883.5181391,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070883",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070884.302520037",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 2,
+    "unrelated_success": 15,
+    "control_success": 15,
+    "target_received": 2,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4104,
+    "policy": "fixed",
+    "trigger_time": 1795070908.7907803,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070908",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070909.670765877",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 3,
+    "unrelated_success": 3,
+    "control_success": 16,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4105,
+    "policy": "monitor",
+    "trigger_time": 1795070932.8505318,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070932",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 6,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4105,
+    "policy": "graded",
+    "trigger_time": 1795070959.3089914,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070959",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070960.320074081",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 3,
+    "unrelated_success": 15,
+    "control_success": 15,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4105,
+    "policy": "fixed",
+    "trigger_time": 1795070984.5057673,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795070984",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795070984.863363981",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 1,
+    "unrelated_success": 1,
+    "control_success": 16,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4106,
+    "policy": "fixed",
+    "trigger_time": 1795071009.3557827,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071009",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071010.087015867",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 2,
+    "unrelated_success": 2,
+    "control_success": 16,
+    "target_received": 2,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4106,
+    "policy": "monitor",
+    "trigger_time": 1795071034.293872,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071034",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 5,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4106,
+    "policy": "graded",
+    "trigger_time": 1795071059.91819,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071059",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071060.224396467",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 1,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4107,
+    "policy": "fixed",
+    "trigger_time": 1795071084.715599,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071084",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071085.028113604",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 1,
+    "unrelated_success": 1,
+    "control_success": 16,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4107,
+    "policy": "graded",
+    "trigger_time": 1795071109.8138757,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071109",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071109.916909456",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 0,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4107,
+    "policy": "monitor",
+    "trigger_time": 1795071133.9316726,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071133",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 5,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4108,
+    "policy": "monitor",
+    "trigger_time": 1795071159.41687,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071159",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 6,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4108,
+    "policy": "fixed",
+    "trigger_time": 1795071184.0450025,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071184",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071184.308590412",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 0,
+    "unrelated_success": 0,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4108,
+    "policy": "graded",
+    "trigger_time": 1795071208.6396778,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071208",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071209.363625526",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 2,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 2,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4109,
+    "policy": "fixed",
+    "trigger_time": 1795071233.9014707,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071233",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071234.909043312",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 3,
+    "unrelated_success": 3,
+    "control_success": 15,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4109,
+    "policy": "graded",
+    "trigger_time": 1795071259.294323,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071259",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071260.064628839",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 2,
+    "unrelated_success": 15,
+    "control_success": 15,
+    "target_received": 2,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4109,
+    "policy": "monitor",
+    "trigger_time": 1795071284.0236914,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071284",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 5,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4110,
+    "policy": "fixed",
+    "trigger_time": 1795071309.128599,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071309",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071309.278737307",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 0,
+    "unrelated_success": 0,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4110,
+    "policy": "monitor",
+    "trigger_time": 1795071334.3709648,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071334",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 5,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4110,
+    "policy": "graded",
+    "trigger_time": 1795071359.1160235,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071359",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071359.374595642",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 5,
+    "switches": 5,
+    "target_success": 0,
+    "unrelated_success": 15,
+    "control_success": 15,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4111,
+    "policy": "monitor",
+    "trigger_time": 1795071384.1164446,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071384",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 6,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4111,
+    "policy": "fixed",
+    "trigger_time": 1795071409.7962751,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071409",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071410.249952316",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 1,
+    "unrelated_success": 1,
+    "control_success": 16,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4111,
+    "policy": "graded",
+    "trigger_time": 1795071435.0904012,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071435",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071435.617948055",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 1,
+    "unrelated_success": 15,
+    "control_success": 15,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4112,
+    "policy": "monitor",
+    "trigger_time": 1795071460.2375531,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071460",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 6,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4112,
+    "policy": "fixed",
+    "trigger_time": 1795071484.460932,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071484",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071485.447439909",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 3,
+    "unrelated_success": 3,
+    "control_success": 16,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4112,
+    "policy": "graded",
+    "trigger_time": 1795071508.952828,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071508",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071509.852158785",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 3,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4113,
+    "policy": "graded",
+    "trigger_time": 1795071534.4925458,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071534",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071534.660716772",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 0,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4113,
+    "policy": "fixed",
+    "trigger_time": 1795071559.3822033,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071559",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071559.468914509",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 0,
+    "unrelated_success": 0,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4113,
+    "policy": "monitor",
+    "trigger_time": 1795071583.3004453,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071583",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 4,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4114,
+    "policy": "graded",
+    "trigger_time": 1795071609.2749538,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071609",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071609.976209879",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 2,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 2,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4114,
+    "policy": "monitor",
+    "trigger_time": 1795071634.5606272,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071634",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 4,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4114,
+    "policy": "fixed",
+    "trigger_time": 1795071658.7010593,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071658",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071659.039261580",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 1,
+    "unrelated_success": 1,
+    "control_success": 16,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4115,
+    "policy": "graded",
+    "trigger_time": 1795071683.272033,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071683",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071683.673093796",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 1,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4115,
+    "policy": "monitor",
+    "trigger_time": 1795071709.7267692,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071709",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 4,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4115,
+    "policy": "fixed",
+    "trigger_time": 1795071734.302755,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071734",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071734.491662264",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 0,
+    "unrelated_success": 0,
+    "control_success": 16,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4116,
+    "policy": "graded",
+    "trigger_time": 1795071758.6971612,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071758",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071759.196793079",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 1,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4116,
+    "policy": "monitor",
+    "trigger_time": 1795071783.4989476,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071783",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 4,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4116,
+    "policy": "fixed",
+    "trigger_time": 1795071809.1079776,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071809",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071809.967171907",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 3,
+    "unrelated_success": 3,
+    "control_success": 16,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4117,
+    "policy": "monitor",
+    "trigger_time": 1795071834.3372324,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071834",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 6,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4117,
+    "policy": "graded",
+    "trigger_time": 1795071859.0285552,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071859",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071859.297959089",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 0,
+    "unrelated_success": 15,
+    "control_success": 15,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4117,
+    "policy": "fixed",
+    "trigger_time": 1795071883.3444993,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071883",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071884.263227224",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 3,
+    "unrelated_success": 3,
+    "control_success": 16,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4118,
+    "policy": "monitor",
+    "trigger_time": 1795071908.6692119,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071908",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 6,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4118,
+    "policy": "fixed",
+    "trigger_time": 1795071933.5596242,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071933",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071933.809421301",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 0,
+    "unrelated_success": 0,
+    "control_success": 15,
+    "target_received": 0,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4118,
+    "policy": "graded",
+    "trigger_time": 1795071958.3022432,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071958",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071958.803932667",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 6,
+    "switches": 6,
+    "target_success": 1,
+    "unrelated_success": 15,
+    "control_success": 15,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4119,
+    "policy": "graded",
+    "trigger_time": 1795071983.057846,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795071983",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795071983.837027073",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 3,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4119,
+    "policy": "fixed",
+    "trigger_time": 1795072008.317033,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795072008",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795072009.356550694",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 3,
+    "unrelated_success": 3,
+    "control_success": 15,
+    "target_received": 3,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4119,
+    "policy": "monitor",
+    "trigger_time": 1795072033.9578025,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795072033",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 4,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  },
+  {
+    "seed": 4120,
+    "policy": "graded",
+    "trigger_time": 1795072058.644351,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795072058",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795072059.196837187",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "10.0.0.11",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 2,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 2,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4120,
+    "policy": "fixed",
+    "trigger_time": 1795072083.220411,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795072083",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [
+      {
+        "time": "1795072083.688123941",
+        "event": "REQUEST_ACCEPTED",
+        "ip": "10.1.0.2",
+        "dst": "",
+        "dpid": "",
+        "xid": "",
+        "seconds": "5.0"
+      }
+    ],
+    "ack_switches": 4,
+    "switches": 4,
+    "target_success": 1,
+    "unrelated_success": 1,
+    "control_success": 16,
+    "target_received": 1,
+    "contained_by_2s": true
+  },
+  {
+    "seed": 4120,
+    "policy": "monitor",
+    "trigger_time": 1795072109.1943645,
+    "detector_requests": [
+      [
+        "10.1.0.2",
+        "1795072109",
+        "AIS-SPRT suspicion (path block)",
+        "10.0.0.11"
+      ]
+    ],
+    "accepted": [],
+    "ack_switches": 0,
+    "switches": 4,
+    "target_success": 16,
+    "unrelated_success": 16,
+    "control_success": 16,
+    "target_received": 16,
+    "contained_by_2s": false
+  }
+]

@@ -132,10 +132,10 @@ def evaluate(events, srcs, episodes):
 
 # ------------------------------------------------------------------------------- Random Forest (trained on our data)
 def bucket_features(attempts, W=10.0):
-    """The six features of detectors.window_features, computed in one pass: (src, window end) -> features."""
+    """Bucket by outcome availability, so no feature uses a future resolution."""
     g = defaultdict(list)
     for a in attempts:
-        g[(a.src, int(a.t // W))].append(a)
+        g[(a.src, int(a.t_outcome // W))].append(a)
     out = {}
     for (s, k), xs in g.items():
         n = len(xs)

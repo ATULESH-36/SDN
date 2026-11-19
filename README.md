@@ -1,7 +1,22 @@
-# SDN-Based Network Traffic Monitor and Anomaly Detection
-### Initiation-Aware Sequential Detection with Graded OpenFlow Mitigation
+# Containment vs. Collateral Loss in Software-Defined Networks
+### Evaluating Graded OpenFlow Mitigation with Sequential Detection
 
 **Group SDN_28 · IIIT Dharwad · Software Defined Networking**
+
+## Research revision
+
+The expanded experiment protocol, state limits, seed splits, reproduction commands,
+plot inventory, stress tests and candidate research contributions are documented in
+[RESEARCH_PROTOCOL.md](RESEARCH_PROTOCOL.md).
+New simulation outputs and measured OpenFlow A/B outputs are kept separate from the
+original results below. Fourteen new core plots do **not** by themselves establish
+publication readiness or superiority. The revised paper source corrects Proposition 1:
+the classical one-test bound is not a lifetime guarantee for weighted, decayed,
+restarting AIS-SPRT. The checked-in `PAPER.pdf` is the original project paper. The current, expanded
+13-page IEEE-style manuscript is [`IEEE_PAPER.pdf`](IEEE_PAPER.pdf), built from
+`PROJECT/report_ieee/systems.tex`. Its live HTTP comparison has 20 matched
+topology seeds per arm; it measures a harmless selected stream, not attack-scale
+containment.
 
 | Name | Roll no. |
 |---|---|
@@ -27,7 +42,7 @@ exist, so their attempts succeed. Scanners probe services that do not exist, so 
 
 - each failure adds evidence and each success removes it (Wald's SPRT); a host is decided a scanner at
   `ln(0.99/0.01) = 4.6`;
-- each service is scored once per host (first contact), so retries do not count;
+- each service is scored once per host within the bounded contact horizon (one hour by default), so short-term retries do not count;
 - failures on services that many hosts use count less (**novelty weight**), so a server outage is not an attack;
 - evidence **decays** (τ = 600 s), so a benign host's old failures fade;
 - a **CUSUM** test on connections per second catches floods, whose connections succeed.
@@ -36,7 +51,7 @@ Its decisions drive a **graded** OpenFlow response in POX:
 1. **path block** (attacker → victim) at suspicion;
 2. **host block** at decision;
 3. **exponential back-off** for repeat offenders (B·2^k);
-4. a **packet-in guard** that closes the rule-installation race.
+4. a **packet-in guard** that inhibits new learning during installation (not a guarantee of zero in-flight leakage).
 
 **PacMan**, our C++ htop-style terminal monitor, shows the operator the same traffic and every block.
 

@@ -24,6 +24,7 @@ import csv
 import math
 import os
 import re
+import sys
 import time
 
 log = core.getLogger("pacman_ips")
@@ -40,6 +41,12 @@ def _text(value):
     return "" if value is None else str(value)
 
 
+def _csv_open(path, append=False):
+    if sys.version_info[0] < 3:
+        return open(path, "ab" if append else "wb")
+    return open(path, "a" if append else "w", newline="")
+
+
 def _actions(actions):
     out = []
     for a in actions:
@@ -53,7 +60,7 @@ def _prepare_csv(path, header):
     if folder and not os.path.isdir(folder):
         os.makedirs(folder)
     if not os.path.exists(path) or os.path.getsize(path) == 0:
-        with open(path, "wb") as f:
+        with _csv_open(path) as f:
             csv.writer(f).writerow(header)
 
 
@@ -119,7 +126,7 @@ class FlowMonitor(object):
                          _text(m.nw_src), _text(m.nw_dst), _text(m.nw_proto), _text(m.tp_src), _text(m.tp_dst),
                          stat.packet_count, stat.byte_count, stat.duration_sec, _actions(stat.actions)])
         if rows:
-            with open(self.stats_file, "ab") as f:
+            with _csv_open(self.stats_file, append=True) as f:
                 csv.writer(f).writerows(rows)
         log.info("Stats %s: %d flow(s), %d packets, %d bytes", switch, len(rows), total_packets, total_bytes)
 
@@ -127,7 +134,8 @@ class FlowMonitor(object):
 class Blocker(object):
     """Turns PacMan's block requests into OpenFlow drop rules on every switch."""
 
-    def __init__(self, blocklist, block_seconds, protect, events_file):
+    def __init__(self, blocklist, block_seconds, protect, events_file, policy="graded", packet_in_guard=True,
+                 trace_file=""):
         self.blocklist = blocklist
         self.block_seconds = block_seconds
         self.protect = protect
@@ -137,11 +145,17 @@ class Blocker(object):
         self.missing_reported = False
         self.active = {}                        # (ip, dst or None) -> (expiry unix time, reason)
         self.offences = {}                      # ip -> times of host-level blocks (repeat-offender back-off)
+        self.policy, self.packet_in_guard, self.trace_file = policy, packet_in_guard, trace_file
+        self.barriers = {}
+        self.guarded = 0
+        if trace_file:
+            _prepare_csv(trace_file, ["time", "event", "ip", "dst", "dpid", "xid", "seconds"])
         _prepare_csv(events_file, EVENT_HEADER)
         core.openflow.addListeners(self)
         # Runs before l2_learning: packets of a blocked source that still reach the controller are discarded, so no
         # new exact-match entry can be installed for them while the DELETE/ADD pair is being applied.
-        core.openflow.addListenerByName("PacketIn", self._guard, priority=10)
+        if packet_in_guard:
+            core.openflow.addListenerByName("PacketIn", self._guard, priority=10)
         Timer(1, self._tick, recurring=True)
         log.info("Blocker ready: reading %s every 1 s, block for %ss, protected: %s",
                  blocklist, block_seconds, ", ".join(sorted(protect)) or "none")
@@ -150,7 +164,7 @@ class Blocker(object):
     # -------------------------------------------------------------- events
 
     def _event(self, event, ip, reason="", switches="", seconds=""):
-        with open(self.events_file, "ab") as f:
+        with _csv_open(self.events_file, append=True) as f:
             csv.writer(f).writerow([time.strftime("%Y-%m-%d %H:%M:%S"), event, ip, reason, switches, seconds])
 
     # -------------------------------------------------------------- reading the blocklist
@@ -180,6 +194,17 @@ class Blocker(object):
 
     def _tick(self):
         now = time.time()
+        for ip, history in list(self.offences.items()):
+            recent = [t for t in history if now - t < 3600]
+            if recent:
+                self.offences[ip] = recent[-4:]
+            else:
+                del self.offences[ip]
+        for xid, (_, stamp) in list(self.barriers.items()):
+            if now - stamp > 30:
+                log.error("No installation barrier reply for xid %s", xid)
+                self._trace("BARRIER_TIMEOUT", xid=xid)
+                del self.barriers[xid]
         for line in self._new_lines():
             self._handle_line(line.strip(), now)
         for key, (expiry, reason) in list(self.active.items()):
@@ -202,6 +227,8 @@ class Blocker(object):
         reason = parts[2].strip() if len(parts) > 2 else (parts[1].strip() if len(parts) > 1 and stamp is None else "")
         scope = parts[3].strip() if len(parts) > 3 else "host"       # "host" or a destination IP (per-path block)
         dst = scope if scope != "host" and valid_unicast_ipv4(scope) else None
+        if self.policy == "fixed":
+            dst = None
 
         if not valid_unicast_ipv4(ip):
             log.warning("Ignoring invalid blocklist entry: %r", line[:80])
@@ -213,15 +240,16 @@ class Blocker(object):
             return
         start = stamp if stamp is not None and stamp <= now + 5 else now
         seconds = self.block_seconds
-        if dst is None:                         # repeat offender: 1x, 2x, 4x, 8x the block time within one hour
+        if dst is None and self.policy == "graded":
             hist = [t for t in self.offences.get(ip, []) if start - t < 3600 and start - t > seconds / 2.0]
             seconds *= 2 ** min(len(hist), 3)
         remaining = start + seconds - now
-        if remaining < 1:
+        if remaining <= 0:
             self._event("STALE", ip, reason, seconds="%.0f" % (now - start))
             return
         if dst is None and (ip not in self.offences or start not in self.offences[ip]):
             self.offences.setdefault(ip, []).append(start)
+        self._trace("REQUEST_ACCEPTED", ip, dst, seconds=seconds)
         self._block(ip, reason, start + seconds, dst)
 
     # -------------------------------------------------------------- OpenFlow
@@ -236,8 +264,24 @@ class Blocker(object):
         return delete, drop                      # no actions on `drop` = discard
 
     def _install(self, connection, ip, seconds, dst=None):
+        self._trace("INSTALL_BEGIN", ip, dst, connection.dpid)
         for msg in self._flow_mods(ip, seconds, dst):
             connection.send(msg)
+        if self.trace_file:
+            barrier = of.ofp_barrier_request()
+            self.barriers[barrier.xid] = ((ip, dst, connection.dpid), time.time())
+            connection.send(barrier)
+
+    def _trace(self, event, ip="", dst="", dpid="", xid="", seconds=""):
+        if self.trace_file:
+            with _csv_open(self.trace_file, append=True) as f:
+                csv.writer(f).writerow(["%.9f" % time.time(), event, ip, dst, dpid, xid, seconds])
+
+    def _handle_BarrierIn(self, event):
+        entry = self.barriers.pop(event.ofp.xid, None)
+        if entry:
+            (ip, dst, dpid), _ = entry
+            self._trace("INSTALL_ACK", ip, dst, dpid, event.ofp.xid)
 
     def _guard(self, event):
         ipp = event.parsed.find("ipv4") if event.parsed is not None else None
@@ -245,6 +289,7 @@ class Blocker(object):
             return
         src, dst = str(ipp.srcip), str(ipp.dstip)
         if (src, None) in self.active or (src, dst) in self.active:
+            self.guarded += 1
             return EventHalt
 
     def _block(self, ip, reason, expiry, dst=None):
@@ -277,7 +322,10 @@ class Blocker(object):
 
 def launch(interval=5, stats_file="/project/results/flow_stats.csv",
            blocklist="/project/results/blocklist.txt", block_seconds=120, protect="",
-           events_file="/project/results/block_events.csv"):
+           events_file="/project/results/block_events.csv", policy="graded", packet_in_guard="true", trace_file=""):
+    from pox.lib.util import str_to_bool
+    if policy not in ("graded", "fixed"):
+        raise ValueError("policy must be graded or fixed")
     interval = float(interval)
     if interval <= 0:
         raise ValueError("interval must be > 0")
@@ -289,4 +337,5 @@ def launch(interval=5, stats_file="/project/results/flow_stats.csv",
     if bad:
         raise ValueError("protect: not valid IPv4 addresses: %s" % ", ".join(bad))
     core.registerNew(FlowMonitor, interval, stats_file)
-    core.registerNew(Blocker, blocklist, block_seconds, protected, events_file)
+    core.registerNew(Blocker, blocklist, block_seconds, protected, events_file, policy,
+                     str_to_bool(packet_in_guard), trace_file)

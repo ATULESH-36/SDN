@@ -1,0 +1,11 @@
+{
+  "seed": 3106,
+  "policy": "fixed",
+  "policy_ack_switches": 4,
+  "false_suspicion_requests": 1,
+  "total_requests": 1,
+  "mixed_sent": 34,
+  "mixed_lost": 25,
+  "benign_sent": 34,
+  "benign_lost": 0
+}

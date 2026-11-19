@@ -1,0 +1,54 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\newcommand{\simpath}[1]{../results/research_simulation_v3/figures/#1.pdf}
+\newcommand{\panel}[1]{\includegraphics[width=.48\textwidth]{\simpath{#1}}}
+\begin{document}
+\title{Supplement: The Cost of Acting on Uncertain Detections}
+\author{}
+\maketitle
+This supplement separates detector sensitivity and sanity checks from the measured
+policy trade-off. The synthetic and measured experiments are not interchangeable.
+
+\section{Slow-rate boundary check}
+For periodic failed contacts with unused services, weight one, no score resets before
+the first alarm, and no eviction, the recurrence is $L_n=c+e^{-\Delta/\tau}L_{n-1}$.
+Its asymptote is $c/(1-e^{-\Delta/\tau})$. It crosses $\eta$ in finite time
+only when that limit exceeds $\eta$ (for the parameters studied, $c<\eta$).
+Figure~\ref{fig:slow} compares the analytic limit with actual detector runs for nine
+gaps surrounding the prediction. Each run stops at its first alarm or at five hours;
+observed peaks for detections stop at the crossing. This is a deterministic implementation
+check, not an estimate of stochastic detection probability.
+\begin{figure}[h]
+\centering
+\includegraphics[width=.68\textwidth]{\simpath{15_slow_boundary}}
+\caption{Analytical and observed detector score near the slow-rate boundary.}\label{fig:slow}
+\end{figure}
+
+\clearpage
+\section{Held-out detector results}
+\panel{01_F1_ci}\panel{02_FPR_ci}\\
+\panel{03_scenario_TPR}\panel{04_scenario_FPR}\\
+\panel{05_delay}\panel{06_RF_pr}
+
+\clearpage
+\section{Workload and model sensitivity}
+\panel{07_padding}\panel{08_sources}\\
+\panel{09_failure}\panel{10_tau}
+
+\clearpage
+\section{Classical reference and bounded-state checks}
+\panel{11_bound_H0}\panel{12_bound_H1}\\
+\panel{13_memory}\panel{14_throughput}
+
+The classical curves distinguish a single stopped test from repeated testing over a
+finite horizon. The weighted/decayed recurrence is illustrative, not a bound for the
+live popularity mechanism. Memory is traced allocation, not peak process RSS, and
+throughput is for instrumented attempt processing, not packet ingestion.
+
+\clearpage
+\section{Enforcement diagnostics}
+\newcommand{\ab}[1]{\includegraphics[width=.48\textwidth]{../results/mitigation_analysis_v3/#1.pdf}}
+\ab{15_leaked_installation_packets}\ab{17_decision_to_initial_ack_s}\\
+\ab{18_host_block_from_attack_start_s}\ab{19_last_block_duration_s}
+\end{document}

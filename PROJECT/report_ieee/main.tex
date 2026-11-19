@@ -23,6 +23,7 @@
 \newtheorem{definition}{Definition}
 \input{generated/results.tex}
 \input{generated/cicids.tex}
+\input{generated/research_summary.tex}
 \newcommand{\cmd}[1]{\texttt{#1}}
 
 \renewcommand{\topfraction}{0.92}\renewcommand{\bottomfraction}{0.6}\renewcommand{\textfraction}{0.08}
@@ -65,14 +66,17 @@ action: the detector must not block legitimate hosts, must catch deliberately sl
 to its evidence. We present \emph{AIS-SPRT}, an initiation-aware sequential probability ratio test that scores each host by
 the \emph{outcome} of the first contacts it \emph{initiates}, weights failures by the novelty of the target and lets evidence
 decay, with a CUSUM test for floods. Its decisions drive a \emph{graded} OpenFlow response (path block, host block,
-exponential back-off, race-free installation). We derive error bounds and the slowest detectable scan rate in closed form.
+exponential back-off, guarded installation). We state the classical single-test error bound and derive the slowest
+detectable scan rate under explicit assumptions; neither is a lifetime guarantee for the deployed detector.
 On \NRuns{} labelled recordings of an emulated 16-host campus network with slow, horizontal, distributed and flood attacks
 and a server outage, AIS-SPRT detected every attacker without flagging any benign host (F1 \OursFone{}), against
 \TRWFone{} for Threshold Random Walk (TRW), \EntFone{} for entropy, \RFFone{} for a Random Forest and \IAFone{} for window
 detectors. On the public CIC-IDS2017 capture (\cicPackets{} packets), without re-tuning the scan test, it was the only
 detector besides the Random Forest to catch both the port scan and the DDoS, with fewer false alarms, and reached F1
-\swCicBFone{} at a stricter false-alarm target where TRW stayed at or below 0.50. A live Mininet/POX loop blocked
-attackers within 1.4~s.
+\swCicBFone{} at a stricter false-alarm target where TRW stayed at or below 0.50. The original live fast-scan tests
+blocked attackers within 1.4~s. However, an expanded 20-test-seed attempt simulation with scripted adaptive strategies
+reverses the ranking: the trained Random Forest reaches macro F1 \ResearchRFFone{} against \ResearchAISFone{} for tuned
+AIS-SPRT. We additionally measure 80 paired OpenFlow mitigation trials to quantify enforcement trade-offs.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -102,19 +106,20 @@ Given the mirrored traffic of an SDN and a controller that programs every switch
 whether each host is scanning or flooding, and block it automatically such that (P1)~legitimate hosts are not blocked,
 including busy servers, multi-service clients and clients of a service that is down; (P2)~slow, horizontal and
 distributed scans and floods are detected; and (P3)~the response is proportionate, escalates for repeat offenders and
-cannot be bypassed during rule installation. Window detectors violate P1 and P2; fixed whole-host blocking violates P3.
+limits new learning during rule installation. These are design objectives, not established guarantees. Our window
+baselines fail P1 or P2 in the original testbed; a fixed whole-host response does not provide graded containment.
 
 \subsection*{Proposed solution}
 Legitimate clients mostly reach services that exist, so their attempts succeed; scanners probe services that do not exist,
 so theirs fail. We therefore score each host sequentially by the outcomes of the connections it \emph{initiates}, scoring
 each service once, discounting failures on services that many hosts use (outages are not attacks) and letting old evidence
-fade, and add a CUSUM test for floods, whose attempts succeed. Decisions drive a graded, race-free OpenFlow response.
+fade, and add a CUSUM test for floods, whose attempts succeed. Decisions drive a graded, guarded OpenFlow response.
 
 Our contributions are:
 \begin{enumerate}
 \item \textbf{AIS-SPRT} (Section~\ref{sec:method}), which extends Threshold Random Walk~\cite{jung2004trw} with
-novelty-weighted evidence and evidence decay and pairs it with a CUSUM~\cite{page1954cusum} flood test, with closed-form
-error bounds and the slowest detectable scan rate (Proposition~\ref{prop:rate}).
+novelty-weighted evidence and evidence decay and pairs it with a CUSUM~\cite{page1954cusum} flood test, with a classical
+single-test reference bound and the slowest detectable scan rate under restricted assumptions (Proposition~\ref{prop:rate}).
 \item A \textbf{graded OpenFlow mitigation} policy (Section~\ref{sec:mitig}): path block at suspicion, host block at
 decision, exponential back-off and a packet-in guard that closes the installation race.
 \item An \textbf{evaluation} (Section~\ref{sec:eval}) on \NRuns{} labelled recordings of a 16-host emulated campus network
@@ -138,7 +143,7 @@ Entropy~\cite{lakhina2005mining,giotis2014combining} & flow features & entropy s
 TRW~\cite{jung2004trw,mehdi2011revisiting} & first-contact outcomes & SPRT & yes & not flagged & $\alpha,\beta$ & alert \\
 ML / DL~\cite{braga2010lightweight,tang2016deep,belachew2025robust,benlloch2026mldas} & flow features & classifier & data-dependent & data-dependent & none & block \\
 In-switch~\cite{krack2025portest,karrakchou2025collaborative} & counters / sketches & threshold / NN & limited & flagged & none & drop \\
-\textbf{AIS-SPRT (ours)} & initiated-attempt outcomes & weighted SPRT+CUSUM & yes (Prop.~\ref{prop:rate}) & not flagged & $\alpha,\beta$ & graded \\
+\textbf{AIS-SPRT (ours)} & initiated-attempt outcomes & weighted SPRT+CUSUM & conditional (Prop.~\ref{prop:rate}) & empirical & empirical & graded \\
 \bottomrule
 \end{tabular}}
 \end{table*}
@@ -218,7 +223,7 @@ addresses both.
 \subsection{Positioning}
 Table~\ref{tab:related} positions AIS-SPRT. It combines the outcome-based sequential test of
 TRW~\cite{jung2004trw} with two mechanisms that matter when decisions drive blocking (novelty weighting and decay),
-adds a flood test, and closes the loop with a graded, race-free OpenFlow policy.
+adds a flood test, and closes the loop with a graded, guarded OpenFlow policy.
 
 
 % =====================================================================================================
@@ -227,7 +232,7 @@ The network is an OpenFlow~1.0 SDN of Open vSwitch switches under a POX controll
 mirrors all its ports to a monitoring port, so detection is out of band; a learning switch installs exact-match forwarding
 entries and our component enforces mitigation and collects flow statistics. A \emph{benign} host initiates connections for a
 legitimate purpose but may contact closed services (stale configuration, retries) or many services (monitoring agents). An
-\emph{attacker} probes vertically, horizontally or in a distributed way, at any rate, or floods a service; it cannot spoof
+\emph{attacker} probes vertically, horizontally or in a distributed way, potentially below detectable rates, or floods a service; it cannot spoof
 replies from other hosts, and traffic between zones crosses the mirrored core.
 
 \begin{figure}[!tb]
@@ -267,7 +272,8 @@ $\Lambda_s$ and update it with attempt $i$ to service $(d_i,\pi_i)$ at time $t_i
 \end{equation}
 subject to three rules:
 
-\emph{First-contact scoring.} As in TRW, each service $(d,\pi)$ is scored only on the first attempt of $s$ to reach it:
+\emph{First-contact scoring.} Each service $(d,\pi)$ is scored only on the first attempt of $s$ to reach it within
+the configured contact horizon (3,600~s in the bounded revision):
 retries of a dead service count once, and reusing a popular service earns no repeated benign credit.
 
 \emph{Novelty weight.} A failure is weighted by how unusual the target is:
@@ -286,15 +292,26 @@ where $\alpha=0.01$ is the target false-positive probability, $\beta=0.99$ the t
 $\rho=0.5$. $\Lambda_s\ge\eta_s$ raises a \emph{suspicion} (path block, Section~\ref{sec:mitig}), $\Lambda_s\ge\eta_1$ a
 \emph{scanner decision} (host block), and $\Lambda_s\le\eta_0$ declares the host benign and resets $\Lambda_s$.
 
-\begin{proposition}[Error bounds]\label{prop:bounds}
-Without decay and weights ($\tau\to\infty$, $w\equiv1$), and with independent outcomes, the probability of declaring a
-benign host a scanner is at most $\alpha/\beta\approx\alpha$ and the probability of missing a scanner is at most
-$(1-\beta)/(1-\alpha)$~\cite{wald1945sequential}. Weights $w_i\le1$ only reduce the evidence for $H_1$, so they cannot
-increase the false-positive bound.
+\begin{proposition}[Classical single-test reference bound]\label{prop:bounds}
+For one unmodified likelihood-ratio test, stopped at its first boundary crossing, without decay, weights, resets or
+the flood test, assume independent Bernoulli outcomes with the specified success probabilities. Under $H_0$, the probability
+of crossing $\eta_1$ is at most $\alpha/\beta$; under $H_1$, the probability of crossing $\eta_0$ is at most
+$(1-\beta)/(1-\alpha)$~\cite{wald1945sequential}.
 \end{proposition}
+\begin{IEEEproof}
+Under $H_0$, $\exp(\Lambda_n)$ is a nonnegative likelihood-ratio martingale with initial expectation one. The
+probability of reaching $\beta/\alpha$ is at most $\alpha/\beta$ by the maximal inequality. Apply the same argument
+to $\exp(-\Lambda_n)$ under $H_1$ for the lower boundary.
+\end{IEEEproof}
+This proposition is not a bound for the complete AIS-SPRT implementation. Repeated resets change the event from
+``one test raises an alarm'' to ``any of many tests raises an alarm''; decay and adaptive weighting do not preserve
+the stated likelihood-ratio martingale. The CUSUM and the lower suspicion threshold also have separate error
+behaviour. We therefore interpret $\alpha$ as an operating parameter, not a certified deployment false-positive rate.
+The extended Monte Carlo evaluation below explicitly compares one-shot and restarted tests.
 
 \begin{proposition}[Slowest detectable scan]\label{prop:rate}
-A scanner whose probes all fail on unused services ($w=1$) and arrive every $\Delta$ seconds is detected iff
+A scanner whose probes all fail on unused services ($w=1$), arrive every $\Delta$ seconds, and whose state is
+neither aged out nor capacity-evicted is detected iff
 \begin{equation}
 \Delta < \tau\,\ln\!\frac{1}{1-c/\eta_1},\qquad c=\ln\frac{1-\theta_1}{1-\theta_0}.
 \end{equation}
@@ -316,7 +333,8 @@ decision when $S_k>h$ ($\kappa=20$, $h=150$: a sustained excess of 20 connection
 
 \subsection{Algorithm}
 Algorithm~\ref{alg:aisprt} gives the per-attempt procedure. All state is per source or per service, and each update is
-$O(1)$ amortised; the set $R$ grows with the number of distinct first contacts and can be aged out with the decay.
+bounded by the configured source/service membership and victim-counter caps, with amortised expiry costs. Contact
+state has both a finite TTL and an entry cap, independently of numerical evidence decay (Section~\ref{sec:extended}).
 
 \begin{algorithm}[!tbp]
 \caption{AIS-SPRT: per resolved initiated attempt}\label{alg:aisprt}
@@ -341,7 +359,7 @@ $O(1)$ amortised; the set $R$ grows with the number of distinct first contacts a
 \end{algorithm}
 
 % =====================================================================================================
-\section{Graded, Race-Free Mitigation}\label{sec:mitig}
+\section{Graded, Guarded Mitigation}\label{sec:mitig}
 Detection events reach the controller as lines \cmd{ip, time, reason, scope} in an append-only file (at most one per
 source and scope every 30~s); the controller validates them (unicast, protected set, staleness) and enforces
 Fig.~\ref{fig:fsm}:
@@ -353,7 +371,8 @@ host blocks of $s$ within one hour ($B=120$~s).
 \item Matching exact-match entries are deleted before the drop rule is added, because they outrank wildcard rules in
 OpenFlow~1.0~\cite{onf2009of10}; a \emph{packet-in guard}, registered before the learning switch, discards packet-ins from
 blocked sources so that no entry can be learned between DELETE and ADD. Blocks expire by hard timeout and are re-installed
-when a switch reconnects.
+when a switch reconnects. The guard prevents new learning for matching packet-ins; it does not recall packets
+already buffered or in flight. End-to-end leakage must therefore be measured rather than assumed zero.
 \end{itemize}
 
 \begin{figure}[!tb]
@@ -550,11 +569,15 @@ without SYN (FIN, Xmas, NULL) are outside the attempt model.
 \input{generated/live.tex}
 
 % =====================================================================================================
+\input{research_extension.tex}
+\input{mitigation_extension.tex}
+
 \section{Discussion and Limitations}
 Proposition~\ref{prop:bounds} assumes independent outcomes; real outcomes are correlated (a host that is down fails every
 probe), which motivates first-contact scoring and novelty weighting. A scanner that probes only services others use, or
 interleaves many successes, lowers its evidence but learns little; one slower than one probe every \SlowLimit~s is missed.
-Spoofed sources could abuse blocking, but a success needs a completed handshake and the first response covers one path.
+Spoofed sources could abuse blocking. The current TCP success definition observes a SYN-ACK, not completion of the
+three-way handshake, and therefore does not authenticate the initiator.
 The perfect emulated score shows that the mechanisms remove the baselines' failure modes, not that the detector is
 error-free: on real traffic the default $\alpha$ gave two false alarms in eight hours and $h$ needed calibration. One public
 day with two attacks is too few for tight confidence intervals; more data sets, larger topologies and a P4 version are
@@ -562,9 +585,11 @@ future work.
 
 \section{Conclusion}
 AIS-SPRT scores hosts by the outcomes of the connections they initiate, with novelty weighting, first-contact scoring and
-decay, and drives a graded, race-free OpenFlow response. It has explicit error parameters and a closed-form slowest
+decay, and drives a graded, guarded OpenFlow response. It has explicit operating parameters and a restricted closed-form slowest
 detectable scan rate, detected every attack class in our dataset without false positives, and on CIC-IDS2017 was the only
-detector besides the Random Forest to catch both the scan and the DDoS, ahead of TRW at every false-alarm target.
+detector besides the Random Forest to catch both the scan and the DDoS in that original experiment. Expanded adaptive
+and distributed evaluations must be reported separately and may reverse this ranking; no universal superiority or
+lifetime error guarantee follows from the original results.
 
 \section*{Acknowledgment}
 We thank the course instructor of Software Defined Networking at IIIT Dharwad.

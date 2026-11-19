@@ -1,0 +1,94 @@
+\section{Detector Model and Slow-Rate Boundary}\label{app:boundary}
+For source $s$, the detector scores the first observed outcome to a
+destination service within the contact retention horizon. For each such
+outcome it updates $L\leftarrow e^{-\Delta/\tau}L+x$, where
+$x=\ln(\theta_1/\theta_0)$ for success and
+$x=w\ln((1-\theta_1)/(1-\theta_0))$ for failure. The default success
+probabilities are $\theta_0=0.8$ and $\theta_1=0.2$; $\tau=600$\,s.
+The popularity weight is $w=\max(0.25,1/(1+n))$, where $n$ counts other
+remembered sources for the service. With nominal $\alpha=0.01$ and
+$\beta=0.99$, the confirmation boundary is $\eta=\ln(\beta/\alpha)$,
+and suspicion starts at $\eta/2$. These parameters are score settings,
+not deployed error guarantees.
+
+For periodic failed contacts with unused services, weight one, no resets
+before the first alarm, and no eviction, $L_n=c+e^{-\Delta/\tau}L_{n-1}$.
+Starting at zero, its limit is $c/(1-e^{-\Delta/\tau})$. With $0<c<\eta$,
+the score crosses $\eta$ in finite time only when this limit exceeds $\eta$.
+Fig.~\ref{fig:slow-integrated} compares the predicted boundary with nine
+detector runs. Runs stop at first alarm or five hours; observed peaks on
+detected runs stop at crossing. This is a deterministic implementation
+check rather than a stochastic detection probability.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{\simfig{15_slow_boundary}}
+\caption{Analytical and observed score near the slow-rate boundary.}
+\label{fig:slow-integrated}
+\end{figure}
+
+\section{Additional Detector and Enforcement Results}
+\newcommand{\simpanel}[1]{\includegraphics[width=.47\textwidth]{\simfig{#1}}}
+\newcommand{\abpanel}[1]{\includegraphics[width=.47\textwidth]{\abfig{#1}}}
+\begin{figure*}[!t]
+\centering
+\simpanel{01_F1_ci}\simpanel{02_FPR_ci}\\
+\simpanel{03_scenario_TPR}\simpanel{04_scenario_FPR}\\
+\simpanel{05_delay}\simpanel{06_RF_pr}
+\caption{Held-out attempt simulation: operating points, scenario errors,
+conditional delay, and the descriptive RF precision--recall curve.
+Misses are reflected in recall, not in the delay distribution.}
+\end{figure*}
+
+\begin{figure*}[!t]
+\centering
+\simpanel{07_padding}\simpanel{08_sources}\\
+\simpanel{09_failure}\simpanel{10_tau}
+\caption{Synthetic workload and parameter sensitivity. Source counts here
+are logical, not independently emulated host namespaces.}
+\end{figure*}
+
+\begin{figure*}[!t]
+\centering
+\simpanel{11_bound_H0}\simpanel{12_bound_H1}\\
+\simpanel{13_memory}\simpanel{14_throughput}
+\caption{Classical single-test reference, restart and weighted/decayed
+simulations, and bounded-state diagnostics. The weighted recurrence does
+not model learned popularity. Memory is traced allocation, not peak RSS;
+throughput is instrumented attempt processing, not packet ingestion.}
+\end{figure*}
+
+\begin{figure*}[!t]
+\centering
+\abpanel{15_leaked_installation_packets}\abpanel{17_decision_to_initial_ack_s}\\
+\abpanel{18_host_block_from_attack_start_s}\abpanel{19_last_block_duration_s}
+\caption{Controlled enforcement diagnostics from the same 80 trials as
+Fig.~\ref{fig:tradeoff}. Accepted TTL is a policy setting, not a delivery measurement.}
+\end{figure*}
+
+\section{Historical Evidence and Negative Results}\label{app:historical}
+The original small-trace test found 16/16 detections and zero false alarms
+over 176 benign host-runs for AIS-SPRT. TRW detected 14/16 and falsely
+flagged 1/176. The historical offline CIC-IDS2017 Friday replay found
+2/2 episodes detected but 2/8 benign hosts falsely flagged with the
+morning-calibrated flood setting. Using the original emulation flood
+setting increased the false count to 5/8. The scan and flood were observed
+from one apparent source address; this is not multi-source validation.
+These are historical outcomes, not held-out results of the updated
+causal RF pipeline. A threshold sweep on the same CIC capture is
+descriptive and does not justify a deployment threshold.
+
+In the original four-host live loop, full-host rules appeared on all
+three switches 0.68--1.39\,s after onset across four fast trials, and a
+single slower trial was blocked after 20.2\,s. One of nine checks failed
+because polling could not separate the path and host stages. These
+measurements show that the original live loop could act, not that it met
+a deadline or that a fixed-policy baseline would have acted later.
+
+The expanded causal evaluation supersedes the older simulation comparison.
+Tuned AIS-SPRT observed no confirmed false alarms but still generated
+benign suspicions and missed many positives
+(Tables~\ref{tab:confusion} and~\ref{tab:detectors}). RF had higher
+macro F1 but nonzero false alarms, and the two methods were not matched
+on false-positive rate. Keeping these negative outcomes visible is
+essential when detector outputs can interrupt service.

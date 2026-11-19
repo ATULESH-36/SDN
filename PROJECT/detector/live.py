@@ -20,6 +20,7 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pcapio                               # noqa: E402
 from detectors import AISPRT                # noqa: E402
+from state import TTLMap                     # noqa: E402
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,16 +28,31 @@ PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 class Tracker(object):
     """Streaming version of pcapio.extract(): feed packets, get resolved attempts."""
 
-    def __init__(self, timeout=pcapio.TIMEOUT):
-        self.timeout, self.pending, self.seen = timeout, {}, set()
+    def __init__(self, timeout=pcapio.TIMEOUT, max_pending=65536, max_seen=131072, seen_ttl=120.0):
+        self.timeout, self.pending = timeout, {}
+        self.max_pending = max_pending
+        if max_pending < 1:
+            raise ValueError("max_pending must be positive")
+        self.seen = TTLMap(max_seen, seen_ttl)
+        self.overflow = 0
 
     def _close(self, key, outcome, t):
         t0 = self.pending.pop(key)
         return pcapio.Attempt(t0, key[0], key[1], key[2], key[4], key[3], outcome, t)
 
     def expire(self, now):
+        self.seen.expire(now)
         return [self._close(k, "failure", v + self.timeout) for k, v in list(self.pending.items())
                 if now - v > self.timeout]
+
+    def _start(self, key, t):
+        if self.seen.get(key, t) is not None:
+            return
+        if len(self.pending) >= self.max_pending:
+            self.overflow += 1
+            return
+        self.seen.put(key, True, t)
+        self.pending[key] = t
 
     def feed(self, t, ipb):
         p = pcapio.parse(ipb)
@@ -46,9 +62,8 @@ class Tracker(object):
         key, rkey = (src, dst, proto, sport, dport), (dst, src, proto, dport, sport)
         if proto == 6:
             if flags & pcapio.SYN and not flags & pcapio.ACK:
-                if key not in self.seen and pcapio.can_initiate(dst, 6, sport, dport):
-                    self.seen.add(key)
-                    self.pending[key] = t
+                if key not in self.pending and pcapio.can_initiate(dst, 6, sport, dport):
+                    self._start(key, t)
             elif rkey in self.pending:
                 if flags & pcapio.SYN and flags & pcapio.ACK:
                     return [self._close(rkey, "success", t)]
@@ -57,15 +72,12 @@ class Tracker(object):
         elif proto == 17:
             if rkey in self.pending:
                 return [self._close(rkey, "success", t)]
-            if key not in self.seen and rkey not in self.seen and pcapio.can_initiate(dst, 17, sport, dport):
-                self.seen.add(key)
-                self.pending[key] = t
+            if key not in self.pending and self.seen.get(rkey, t) is None and pcapio.can_initiate(dst, 17, sport, dport):
+                self._start(key, t)
         elif proto == 1 and icmp and icmp[0] == 3 and icmp[2]:
             okey = tuple(icmp[2][:5])
             if okey in self.pending:
                 return [self._close(okey, "failure", t)]
-        if len(self.seen) > 500000:
-            self.seen.clear()
         return []
 
 
@@ -81,7 +93,7 @@ def main():
     sock.bind((a.iface, 0))
     sock.settimeout(0.5)
     det, tr = AISPRT(), Tracker()
-    last = {}
+    last = TTLMap(8192, max(600.0, a.cooldown * 2))
     log = open(a.log, "a")
 
     def say(msg):
@@ -92,6 +104,7 @@ def main():
 
     say("AIS-SPRT live on %s (eta1=%.2f, eta_s=%.2f, tau=%.0f s)" % (a.iface, det.eta1, det.rho * det.eta1, det.tau))
     next_expire = time.time() + 0.5
+    next_stats = time.time() + 30
     while True:
         done = []
         try:
@@ -103,18 +116,25 @@ def main():
             t = time.time()
         if t >= next_expire:
             done += tr.expire(t)
+            det.age(t)
+            last.expire(t)
             next_expire = t + 0.5
+        if t >= next_stats:
+            say("STATE %s tracker_pending=%d seen=%d overflow=%d seen_evicted=%d" %
+                (det.state_stats(), len(tr.pending), len(tr.seen), tr.overflow, tr.seen.evicted))
+            next_stats = t + 30
         for att in done:
             for _t, src, kind, scope in det.step(att):
                 reason = {"SUSPECT": "AIS-SPRT suspicion (path block)", "PORT_SCAN": "AIS-SPRT scanner decision",
                           "SYN_FLOOD": "CUSUM connection flood"}[kind]
                 key = (src, scope)
-                if t - last.get(key, 0) < a.cooldown:
+                previous = last.get(key, t, 0, refresh=False)
+                if t - previous < a.cooldown:
                     continue
-                last[key] = t
+                last.put(key, t, t)
                 with open(a.blocklist, "a") as f:
                     f.write("%s\t%d\t%s\t%s\n" % (src, int(t), reason, scope))
-                say("%s %s scope=%s L/eta1=%.2f" % (kind, src, scope, det.score[src]))
+                say("%s %s scope=%s L/eta1=%.2f" % (kind, src, scope, det.score.get(src, 0.0)))
 
 
 if __name__ == "__main__":

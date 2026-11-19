@@ -1,0 +1,23 @@
+\newcommand{\LiveDelta}{-60.2 [-69.2, -50.8]}
+\newcommand{\LiveFixed}{135/227 & 0/227}
+\newcommand{\LiveGraded}{0/227 & 0/227}
+\newcommand{\PolicyEffects}{%
+Collateral (pp) & Graded--fixed & -49.947 [-52.000, -47.845] \\
+Persistent delivery (pp) & Graded--fixed & -47.574 [-49.575, -45.184] \\
+Full-host ACK (s) & Graded--fixed & 0.675 [0.583, 0.758] \\
+Initial ACK (s) & Graded--fixed & -0.033 [-0.132, 0.078] \\
+Install-window receipts (packets) & Guard on--off & -0.975 [-1.425, -0.575] \\
+}
+\newcommand{\DetectorRows}{%
+AIS-default & 3517 & 10503 & 164 & 7413 & 0.560 & 0.854 & 0.399 & 0.001 \\
+AIS-tuned & 3514 & 10506 & 0 & 7577 & 0.543 & 1.000 & 0.399 & 0.001 \\
+TRW & 4400 & 9620 & 9 & 7568 & 0.659 & 0.964 & 0.593 & 0.000 \\
+RF-tuned & 14020 & 0 & 141 & 7436 & 0.905 & 0.785 & 0.930 & 0.000 \\
+Entropy & 1946 & 12074 & 75 & 7502 & 0.477 & 0.739 & 0.489 & 0.000 \\
+IA-Window & 80 & 13940 & 0 & 7577 & 0.444 & 1.000 & 0.444 & 0.000 \\
+}
+\newcommand{\DetectorIntervals}{%
+AIS-tuned & 0.543 [0.542, 0.544] & 0.533 [0.532, 0.535] & 0.000 [0.000, 0.000] \\
+TRW & 0.659 [0.652, 0.665] & 0.667 [0.667, 0.667] & 0.001 [0.000, 0.002] \\
+RF-tuned & 0.905 [0.882, 0.928] & 1.000 [1.000, 1.000] & 0.019 [0.014, 0.024] \\
+}
