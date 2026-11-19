@@ -1,0 +1,9 @@
+WARNING:version:POX requires one of the following versions of Python: 3.6 3.7 3.8 3.9
+WARNING:version:You're running Python 3.12.
+WARNING:version:If you run into problems, try using a supported version.
+WARNING:pacman_ips:Switch 00-00-00-00-00-01 disconnected (5 switch(es) monitored)
+WARNING:pacman_ips:Switch 00-00-00-00-00-04 disconnected (4 switch(es) monitored)
+WARNING:pacman_ips:Switch 00-00-00-00-00-06 disconnected (3 switch(es) monitored)
+WARNING:pacman_ips:Switch 00-00-00-00-00-03 disconnected (2 switch(es) monitored)
+WARNING:pacman_ips:Switch 00-00-00-00-00-02 disconnected (1 switch(es) monitored)
+WARNING:pacman_ips:Switch 00-00-00-00-00-05 disconnected (0 switch(es) monitored)

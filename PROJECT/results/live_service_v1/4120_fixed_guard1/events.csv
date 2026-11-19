@@ -1,0 +1,2 @@
+time,event,ip,reason,switches,seconds
+2026-11-19 07:08:03,BLOCK,10.1.0.2,AIS-SPRT suspicion (path block),4,4

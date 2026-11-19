@@ -1,0 +1,31 @@
+{
+  "seed": 4115,
+  "policy": "graded",
+  "trigger_time": 1795071683.272033,
+  "detector_requests": [
+    [
+      "10.1.0.2",
+      "1795071683",
+      "AIS-SPRT suspicion (path block)",
+      "10.0.0.11"
+    ]
+  ],
+  "accepted": [
+    {
+      "time": "1795071683.673093796",
+      "event": "REQUEST_ACCEPTED",
+      "ip": "10.1.0.2",
+      "dst": "10.0.0.11",
+      "dpid": "",
+      "xid": "",
+      "seconds": "5.0"
+    }
+  ],
+  "ack_switches": 4,
+  "switches": 4,
+  "target_success": 1,
+  "unrelated_success": 16,
+  "control_success": 16,
+  "target_received": 1,
+  "contained_by_2s": true
+}

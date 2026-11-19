@@ -1,0 +1,21 @@
+{
+  "seed": 4102,
+  "policy": "monitor",
+  "trigger_time": 1795070708.8726602,
+  "detector_requests": [
+    [
+      "10.1.0.2",
+      "1795070708",
+      "AIS-SPRT suspicion (path block)",
+      "10.0.0.11"
+    ]
+  ],
+  "accepted": [],
+  "ack_switches": 0,
+  "switches": 6,
+  "target_success": 16,
+  "unrelated_success": 16,
+  "control_success": 16,
+  "target_received": 16,
+  "contained_by_2s": false
+}
